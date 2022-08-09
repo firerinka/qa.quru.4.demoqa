@@ -76,7 +76,7 @@ public class PracticeFormTests {
         checkResult("State and City", STATE + " " + CITY);
     }
 
-    public void checkResult(String key, String value){
+    public void checkResult(String key, String value) {
         $(".table-responsive").$(byText(key))
                 .parent().shouldHave(text(value));
     }
