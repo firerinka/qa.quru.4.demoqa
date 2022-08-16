@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class RegistrationFormPage {
-    public static final String FORM_TITLE = "Student Registration Form";
+    private static final String FORM_TITLE = "Student Registration Form";
     private CalendarComponent calendarComponent = new CalendarComponent();
     private SelenideElement firstNameInput = $("#firstName"),
             lastNameInput = $("#lastName"),

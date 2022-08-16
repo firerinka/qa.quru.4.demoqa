@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ResultsModalComponent {
 
-    public static final String MODAL_TITLE = "Thanks for submitting the form";
+    private static final String MODAL_TITLE = "Thanks for submitting the form";
 
     public ResultsModalComponent checkModalFormAppeared() {
         $(".modal-dialog").should(appear);
