@@ -7,21 +7,20 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class PracticeFormPageObjectsTests {
-    static final String FIRST_NAME = "Anna";
-    static final String LAST_NAME = "Petrova";
-    static final String EMAIL = "anna.petrova@gmail.com";
-
-    static final String GENDER = "Female";
-    static final String PHONE = "9992223344";
-    static final String BIRTH_YEAR = "2000";
-    static final String BIRTH_MONTH = "September";
-    static final String BIRTH_DAY = "30";
-    static final String[] SUBJECTS = {"Maths", "Arts"};
-    static final String[] HOBBIES = {"Reading", "Music"};
-    static final String PICTURE_PATH = "img/testPicture.jpg";
-    static final String CURRENT_ADDRESS = "Private road 1";
-    static final String STATE = "Haryana";
-    static final String CITY = "Karnal";
+    static final String FIRST_NAME = "Anna",
+            LAST_NAME = "Petrova",
+            EMAIL = "anna.petrova@gmail.com",
+            GENDER = "Female",
+            PHONE = "9992223344",
+            BIRTH_YEAR = "2000",
+            BIRTH_MONTH = "September",
+            BIRTH_DAY = "30",
+            PICTURE_PATH = "img/testPicture.jpg",
+            CURRENT_ADDRESS = "Private road 1",
+            STATE = "Haryana",
+            CITY = "Karnal";
+    static final String[] SUBJECTS = {"Maths", "Arts"},
+            HOBBIES = {"Reading", "Music"};
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
     ResultsModalComponent resultsModalComponent = new ResultsModalComponent();
