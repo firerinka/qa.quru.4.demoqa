@@ -3,6 +3,8 @@ package com.demoqa.pages;
 import com.codeborne.selenide.SelenideElement;
 import com.demoqa.pages.components.CalendarComponent;
 
+import java.time.LocalDate;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -32,22 +34,22 @@ public class RegistrationFormPage {
         executeJavaScript("$('#fixedban').remove()");
         return this;
     }
-    
+
     public RegistrationFormPage setFirstName(String firstName) {
         firstNameInput.setValue(firstName);
         return this;
     }
-    
+
     public RegistrationFormPage setLastName(String lastName) {
         lastNameInput.setValue(lastName);
         return this;
     }
-    
+
     public RegistrationFormPage setUserEmail(String userEmail) {
         userEmailInput.setValue(userEmail);
         return this;
     }
-    
+
     public RegistrationFormPage setGender(String gender) {
         genderRadioButton.$(byText(gender)).click();
         return this;
@@ -58,9 +60,9 @@ public class RegistrationFormPage {
         return this;
     }
 
-    public RegistrationFormPage setBirthDate(String day, String month, String year) {
+    public RegistrationFormPage setBirthDate(LocalDate birthDay) {
         birthDateInput.click();
-        calendarComponent.setDate(day, month, year);
+        calendarComponent.setDate(birthDay);
         return this;
     }
 

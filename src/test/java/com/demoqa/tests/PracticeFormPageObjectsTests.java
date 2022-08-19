@@ -1,63 +1,82 @@
 package com.demoqa.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.demoqa.pages.RegistrationFormPage;
 import com.demoqa.pages.components.ResultsModalComponent;
-import org.junit.jupiter.api.BeforeAll;
+import com.demoqa.utils.TestDataGenerationUtils;
+import com.github.javafaker.Faker;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PracticeFormPageObjectsTests {
-    static final String FIRST_NAME = "Anna",
-            LAST_NAME = "Petrova",
-            EMAIL = "anna.petrova@gmail.com",
-            GENDER = "Female",
-            PHONE = "9992223344",
-            BIRTH_YEAR = "2000",
-            BIRTH_MONTH = "September",
-            BIRTH_DAY = "30",
-            PICTURE_PATH = "img/testPicture.jpg",
-            CURRENT_ADDRESS = "Private road 1",
-            STATE = "Haryana",
-            CITY = "Karnal";
-    static final String[] SUBJECTS = {"Maths", "Arts"},
-            HOBBIES = {"Reading", "Music"};
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import static com.demoqa.utils.TestDataGenerationUtils.hobbiesGeneration;
+import static com.demoqa.utils.TestDataGenerationUtils.subjectsGeneration;
+
+public class PracticeFormPageObjectsTests extends TestBase {
+    Faker faker = new Faker(new Locale("en"));
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
     ResultsModalComponent resultsModalComponent = new ResultsModalComponent();
 
-    @BeforeAll
-    static void configure() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
+    String firstName,
+            lastName,
+            email,
+            gender,
+            phone,
+            picturePath,
+            currentAddress,
+            state,
+            city;
+    String[] subjects,
+            hobbies;
+    LocalDate birthDay;
+
+    @BeforeEach
+    void testDataGeneration() {
+        firstName = faker.name().firstName();
+        lastName = faker.name().lastName();
+        email = faker.internet().emailAddress();
+        gender = TestDataGenerationUtils.genderGeneration();
+        phone = faker.phoneNumber().subscriberNumber(10);
+        birthDay = LocalDate.ofInstant(faker.date().birthday(18, 100).toInstant(), ZoneId.systemDefault());
+        currentAddress = faker.address().fullAddress();
+        state = "Haryana";
+        city = "Karnal";
+        subjects = subjectsGeneration();
+        hobbies = hobbiesGeneration();
+        picturePath = "img/testPicture.jpg";
     }
 
     @Test
     void studentRegistrationFormTest() {
         registrationFormPage.openPage()
-                .setFirstName(FIRST_NAME)
-                .setLastName(LAST_NAME)
-                .setUserEmail(EMAIL)
-                .setGender(GENDER)
-                .setUserNumber(PHONE)
-                .setBirthDate(BIRTH_DAY, BIRTH_MONTH, BIRTH_YEAR)
-                .setSubjects(SUBJECTS)
-                .setHobbies(HOBBIES)
-                .uploadPicture(PICTURE_PATH)
-                .setCurrentAddress(CURRENT_ADDRESS)
-                .setState(STATE)
-                .setCity(CITY)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setUserEmail(email)
+                .setGender(gender)
+                .setUserNumber(phone)
+                .setBirthDate(birthDay)
+                .setSubjects(subjects)
+                .setHobbies(hobbies)
+                .uploadPicture(picturePath)
+                .setCurrentAddress(currentAddress)
+                .setState(state)
+                .setCity(city)
                 .submitForm();
 
         resultsModalComponent.checkModalFormAppeared()
-                .checkResult("Student Name", FIRST_NAME + " " + LAST_NAME)
-                .checkResult("Student Email", EMAIL)
-                .checkResult("Gender", GENDER)
-                .checkResult("Mobile", PHONE)
-                .checkResult("Date of Birth", BIRTH_DAY + " " + BIRTH_MONTH + "," + BIRTH_YEAR)
-                .checkResult("Subjects", String.join(", ", SUBJECTS))
-                .checkResult("Hobbies", String.join(", ", HOBBIES))
-                .checkResult("Picture", PICTURE_PATH.substring(PICTURE_PATH.lastIndexOf("/") + 1))
-                .checkResult("Address", CURRENT_ADDRESS)
-                .checkResult("State and City", STATE + " " + CITY);
+                .checkResult("Student Name", String.format("%s %s", firstName, lastName))
+                .checkResult("Student Email", email)
+                .checkResult("Gender", gender)
+                .checkResult("Mobile", phone)
+                .checkResult("Date of Birth", birthDay.format(DateTimeFormatter.ofPattern("dd MMMM,yyyy")))
+                .checkResult("Subjects", String.join(", ", subjects))
+                .checkResult("Hobbies", String.join(", ", hobbies))
+                .checkResult("Picture", picturePath.substring(picturePath.lastIndexOf("/") + 1))
+                .checkResult("Address", currentAddress)
+                .checkResult("State and City", String.format("%s %s", state, city));
     }
 }
