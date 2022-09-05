@@ -1,8 +1,6 @@
 package com.demoqa.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -10,7 +8,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class PracticeFormTests {
+public class PracticeFormTests extends TestBase {
     static final String FIRST_NAME = "Anna";
     static final String LAST_NAME = "Petrova";
     static final String EMAIL = "anna.petrova@gmail.com";
@@ -26,12 +24,6 @@ public class PracticeFormTests {
     static final String CURRENT_ADDRESS = "Private road 1";
     static final String STATE = "Haryana";
     static final String CITY = "Karnal";
-
-    @BeforeAll
-    static void configure() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-    }
 
     @Test
     void studentRegistrationFormTest() {
