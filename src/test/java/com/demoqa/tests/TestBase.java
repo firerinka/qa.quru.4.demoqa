@@ -26,7 +26,7 @@ public class TestBase {
         Configuration.timeout = 10_000;
 
         Configuration.browser = System.getProperty("browser_name", "chrome");
-        Configuration.browserVersion = System.getProperty("browser_version", "100.0");
+        Configuration.browserVersion = System.getProperty("browser_version", "105.0");
         Configuration.browserSize = System.getProperty("browser_size", "1920x1080");
 
         if (System.getProperty("selenide.remote") != null) {
@@ -38,7 +38,9 @@ public class TestBase {
     void addAttachments() {
         Attach.screenshotAs("Last screenshot");
         Attach.pageSource();
-        Attach.browserConsoleLogs();
+        if (Configuration.browser.equals("chrome")) {
+            Attach.browserConsoleLogs();
+        }
         Attach.addVideo();
     }
 
