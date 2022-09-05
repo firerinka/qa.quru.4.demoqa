@@ -1,9 +1,9 @@
 package com.demoqa.pages.components;
 
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -20,8 +20,14 @@ public class ResultsModalComponent {
 
     @Step("Проверяем, что Label '{label}' имеет Values '{values}'")
     public ResultsModalComponent checkResult(String label, String values) {
-        $(".table-responsive").$(byText(label))
-                .parent().shouldHave(text(values));
+        SelenideElement value = $(".table-responsive").$(byText(label)).parent();
+
+        if (values.isEmpty()) {
+            value.shouldHave(exactText(label));
+        } else {
+            value.shouldHave(text(values));
+        }
+
         return this;
     }
 }
